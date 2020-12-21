@@ -92,7 +92,15 @@ class HaSocket extends ChangeNotifier {
 
   void subscribeToStateChanged() {
     void callback(stateChangedObj) {
-      if (stateChangedObj['type'] == 'event') {}
+      if (stateChangedObj['type'] == 'event') {
+        var event = stateChangedObj['event'];
+        if (event['event_type'] == 'state_changed') {
+          var entityId = event['data']['entity_id'];
+          var newState = event['data']['new_state'];
+
+          this.state[entityId] = newState;
+        }
+      }
     }
 
     this.send({'event_type': 'state_changed'}, 'subscribe_events', callback,
