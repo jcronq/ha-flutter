@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/status.dart' as status;
 import 'dart:convert';
 
 class HaSocket extends ChangeNotifier {
@@ -52,6 +51,7 @@ class HaSocket extends ChangeNotifier {
         }
         print("state loaded");
         this.stateLoaded = true;
+        notifyListeners();
       }
     }
 
@@ -101,6 +101,7 @@ class HaSocket extends ChangeNotifier {
           this.state[entityId] = newState;
         }
       }
+      notifyListeners();
     }
 
     this.send({'event_type': 'state_changed'}, 'subscribe_events', callback,
